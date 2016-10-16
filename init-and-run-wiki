@@ -5,5 +5,12 @@ if [ ! -d /var/lib/tiddlywiki/mywiki ]; then
   tiddlywiki mywiki --init server
 fi
 
-exec tiddlywiki mywiki --server 8080 $:/core/save/all text/plain text/html "$USER" "$PASSWORD" 0.0.0.0
+if [ -n "$PREFIX" ]; then
+    mkdir -p /var/lib/tiddlywiki/mywiki/tiddlers
+    cp /etc/tiddlywiki_host_config_template.tid /var/lib/tiddlywiki/mywiki/tiddlers/\$__config_tiddlyweb_host.tid
+    sed -i "s/prefix/$PREFIX/g" /var/lib/tiddlywiki/mywiki/tiddlers/\$__config_tiddlyweb_host.tid
+    exec tiddlywiki mywiki --server 8080 $:/core/save/all text/plain text/html "$USER" "$PASSWORD" 0.0.0.0 "/$PREFIX"
+else
+    exec tiddlywiki mywiki --server 8080 $:/core/save/all text/plain text/html "$USER" "$PASSWORD" 0.0.0.0
+fi
 

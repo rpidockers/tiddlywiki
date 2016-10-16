@@ -18,9 +18,11 @@ WORKDIR /var/lib/tiddlywiki
 
 # Add init-and-run script
 ADD init-and-run-wiki /usr/local/bin/init-and-run-wiki
+ADD tiddlywiki_host_config_template.tid /etc/tiddlywiki_host_config_template.tid
 
 ENV USER user
 ENV PASSWORD ""
+ENV PREFIX ""
 
 # Meta
 CMD ["/usr/local/bin/init-and-run-wiki"]
